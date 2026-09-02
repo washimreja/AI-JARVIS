@@ -13,7 +13,7 @@ export const WindowHeader: React.FC<WindowHeaderProps> = ({
   onClose,
 }) => {
   return (
-    <div className="h-9 px-4 flex items-center justify-between border-b border-white/[0.04] bg-[#07090E] select-none z-50">
+    <div data-tauri-drag-region className="h-9 px-4 flex items-center justify-between border-b border-white/[0.04] bg-[#07090E] select-none z-50">
       {/* Left branding */}
       <div className="flex items-center gap-2">
         <span className="w-2 h-2 rounded-full bg-cyan-400/90 shadow-[0_0_6px_#22d3ee]" />
