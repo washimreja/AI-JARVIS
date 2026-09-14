@@ -11,9 +11,39 @@ import { SystemView } from './pages/SystemView';
 import { MemoryView } from './pages/MemoryView';
 import { SettingsView } from './pages/SettingsView';
 import type { NavTab } from './types/jarvis';
+import { getCurrentWindow } from '@tauri-apps/api/window';
 
 export function App() {
   const [activeTab, setActiveTab] = useState<NavTab>('home');
+
+  const isTauri = typeof window !== 'undefined' && '__TAURI_INTERNALS__' in window;
+
+  const handleMinimize = async () => {
+    if (isTauri) {
+      const appWindow = getCurrentWindow();
+      await appWindow.minimize();
+    } else {
+      console.log('Minimize window (browser)');
+    }
+  };
+
+  const handleMaximize = async () => {
+    if (isTauri) {
+      const appWindow = getCurrentWindow();
+      await appWindow.toggleMaximize();
+    } else {
+      console.log('Maximize window (browser)');
+    }
+  };
+
+  const handleClose = async () => {
+    if (isTauri) {
+      const appWindow = getCurrentWindow();
+      await appWindow.close();
+    } else {
+      console.log('Close application (browser)');
+    }
+  };
 
   const renderActiveContent = () => {
     switch (activeTab) {
@@ -48,9 +78,9 @@ export function App() {
     <div className="h-screen w-screen flex flex-col bg-[#080B10] text-slate-100 overflow-hidden font-sans selection:bg-cyan-500/30 selection:text-white">
       {/* Top Custom Window Header */}
       <WindowHeader
-        onMinimize={() => console.log('Minimize window')}
-        onMaximize={() => console.log('Maximize window')}
-        onClose={() => console.log('Close application')}
+        onMinimize={handleMinimize}
+        onMaximize={handleMaximize}
+        onClose={handleClose}
       />
 
       {/* Main Desktop Workspace Container */}
